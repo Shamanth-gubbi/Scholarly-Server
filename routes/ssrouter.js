@@ -15,6 +15,7 @@ ssrouter.route('/')
         res.setHeader('Content-Type', 'application/json');
         res.json(rows);
         connection.end();
+        
     } catch (err) {
         next(err);
     }
