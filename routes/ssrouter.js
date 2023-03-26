@@ -8,17 +8,26 @@ ssrouter.use(bodyParser.json());
 
 ssrouter.route('/')
 .get(async (req, res, next) => {
-    try {
-        const connection = await mysql.createConnection(config.get('db'));
-        const [rows, fields] = await connection.execute('SELECT * FROM scholarship;');
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(rows);
-        connection.end();
-        
-    } catch (err) {
-        next(err);
+    const connection = await mysql.createConnection(config.get('db'));
+
+    const [uid]= await db.query(`SELECT * FROM scholarship;`);
+
+    if(uid.length == 0){
+        res.statusCode = 409;
+        res.setHeader('Content-Type', 'text/json');
+        res.send("User does not exists");
+        res.json({"status":"false"});
     }
+    else {
+        //db.query(`UPDATE student SET fname="${user.fname}", lname="${user.lname}", staddress="${user.staddress}", pincode="${user.pincode}", phone="${user.phone}", stupassword="${user.stupassword}", emailid="${user.emailid}", dob="${user.dob}", cur_qual="${user.cur_qual}", basic_qual="${user.basic_qual}", master_qual="${user.master_qual}", other_qual="${user.other_qual}", stresume="${user.stresume}", photo="${user.photo}" WHERE emailid="${user.emailid}";`);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/json');
+        res.json(uid);
+        
+    }
+
+    //connection.end();
+    
 })
 .post( async (req, res, next) => {
     const rest = {  sch_id: req.body.sch_id,
@@ -44,7 +53,29 @@ ssrouter.route('/')
             //res.json(dish);
             
 });
+ssrouter.route('/:id')
+.get(async (req, res, next) => {
+    const connection = await mysql.createConnection(config.get('db'));
 
+    const [uid]= await db.query(`SELECT * FROM scholarship where sch_id="${req.params.id}";`);
+
+    if(uid.length == 0){
+        res.statusCode = 409;
+        res.setHeader('Content-Type', 'text/json');
+        res.send("User does not exists");
+        res.json({"status":"false"});
+    }
+    else {
+        //db.query(`UPDATE student SET fname="${user.fname}", lname="${user.lname}", staddress="${user.staddress}", pincode="${user.pincode}", phone="${user.phone}", stupassword="${user.stupassword}", emailid="${user.emailid}", dob="${user.dob}", cur_qual="${user.cur_qual}", basic_qual="${user.basic_qual}", master_qual="${user.master_qual}", other_qual="${user.other_qual}", stresume="${user.stresume}", photo="${user.photo}" WHERE emailid="${user.emailid}";`);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/json');
+        res.json(uid);
+        
+    }
+
+    //connection.end();
+    
+})
 
 
 

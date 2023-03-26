@@ -15,6 +15,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors());
 
+const applicantsrouter = require('./routes/applicants');
+app.use('/applicants',applicantsrouter);
 
 const ssrouter = require('./routes/ssrouter');
 app.use('/scholarship',ssrouter);
@@ -25,6 +27,9 @@ app.use('/students',studentrouter);
 const sponsorrouter = require('./routes/sponsorroute');
 app.use('/sponsors',sponsorrouter);
 
+
+const applicationrouter = require('./routes/application');
+app.use('/application',applicationrouter);
 
 const server = http.createServer(app);
 async function main(){

@@ -3,26 +3,15 @@ const bodyParser = require('body-parser');
 const mysql = require("mysql2/promise");
 const config = require('config');
 
-const applicationrouter = express.Router();
-applicationrouter.use(bodyParser.json());
+const applicantsrouter = express.Router();
+applicantsrouter.use(bodyParser.json());
 
-applicationrouter.route('/')
-.get(async (req, res, next) => {
-    try {
-        const [rows] = await db.query('SELECT * FROM application;');
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(rows);
-    } catch (err) {
-        next(err);
-    }
-})
-applicationrouter.route('/:id')
+applicantsrouter.route('/:id')
 .get(async (req, res, next) => {
     const connection = await mysql.createConnection(config.get('db'));
     const [uid]= await db.query(`SELECT scholarship.sch_id,title,shdescription,no_of_scholarships,shamount,deadline,eligibility,postdate,other_support,
     related_link,NSRG,category FROM scholarship,application where 
-    scholarship.sch_id=application.sch_id AND  stuid="${req.params.id}";`);
+    scholarship.sch_id=application.sch_id AND  application.sch_id="${req.params.id}";`);
     if(uid.length == 0){
         res.statusCode = 409;
         res.setHeader('Content-Type', 'text/json');
@@ -38,24 +27,8 @@ applicationrouter.route('/:id')
     }
 })
 
-applicationrouter.route('sponsor/:id')
-.get(async (req, res, next) => {
-    const connection = await mysql.createConnection(config.get('db'));
-    const [uid]= await db.query(`SELECT * FROM application where sponid="${req.params.id}";`);
-    if(uid.length == 0){
-        res.statusCode = 409;
-        res.setHeader('Content-Type', 'text/json');
-        res.send("User does not exists");
-        res.json({"status":"false"});
-    }
-    else {
-        //db.query(`UPDATE student SET fname="${user.fname}", lname="${user.lname}", staddress="${user.staddress}", pincode="${user.pincode}", phone="${user.phone}", stupassword="${user.stupassword}", emailid="${user.emailid}", dob="${user.dob}", cur_qual="${user.cur_qual}", basic_qual="${user.basic_qual}", master_qual="${user.master_qual}", other_qual="${user.other_qual}", stresume="${user.stresume}", photo="${user.photo}" WHERE emailid="${user.emailid}";`);
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'text/json');
-        res.json(uid);
-        
-    }
-})
+
+
 
 
 
@@ -72,4 +45,4 @@ async function main(){
 }
 main();
 
-module.exports = applicationrouter;
+module.exports = applicantsrouter;
