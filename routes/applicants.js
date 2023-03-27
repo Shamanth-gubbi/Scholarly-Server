@@ -27,6 +27,43 @@ applicantsrouter.route('/:id')
         
     }
 })
+applicantsrouter.route('/')
+.post(async (req, res, next) => {
+    const rest = {  sch_id: req.body.sch_id,
+                    //stuid: req.body.stuid,
+                    sponid: req.body.sponid,
+                }   
+    const [uid]= await db.query(`SELECT application.stuid, application.sch_id, application.sponid,
+    emailid,
+    fname,
+    lname,
+    staddress,
+    pincode,
+    phone,
+    stupassword,
+    emailid,
+    dob,
+    cur_qual,
+    basic_qual,
+    master_qual,
+    other_qual,
+    stresume,
+    photo FROM application, student where student.stuid=application.stuid AND application.sch_id="${rest.sch_id}" AND application.sponid="${rest.sponid}";`);
+
+    if(uid.length != 0){
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/json');
+        //res.send("User already exists");
+        res.json([uid][0]);
+    }
+    else {
+      
+        res.statusCode = 404;
+        //res.setHeader('Content-Type', 'text/json');
+        res.json({"status":"false"});
+    }
+})
+
 
 
 
