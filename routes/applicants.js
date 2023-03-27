@@ -9,9 +9,10 @@ applicantsrouter.use(bodyParser.json());
 applicantsrouter.route('/:id')
 .get(async (req, res, next) => {
     const connection = await mysql.createConnection(config.get('db'));
-    const [uid]= await db.query(`SELECT scholarship.sch_id,title,shdescription,no_of_scholarships,shamount,deadline,eligibility,postdate,other_support,
-    related_link,NSRG,category FROM scholarship,application where 
-    scholarship.sch_id=application.sch_id AND  application.sch_id="${req.params.id}";`);
+    const [uid]= await db.query(`SELECT scholarship.sch_id,application.stuid,application.sponid,title,shdescription,no_of_scholarships,shamount,deadline,eligibility,postdate,other_support,
+    related_link,NSRG,category FROM scholarship,application,sponsor where 
+    sponsor.sponid=application.sponid AND
+    scholarship.sch_id=application.sch_id AND  application.sponid="${req.params.id}";`);
     if(uid.length == 0){
         res.statusCode = 409;
         res.setHeader('Content-Type', 'text/json');
