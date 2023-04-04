@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2023 at 08:00 AM
+-- Generation Time: Apr 04, 2023 at 06:52 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -60,18 +60,21 @@ CREATE TABLE `scholarship` (
   `eligibility` varchar(1000) NOT NULL,
   `postdate` date NOT NULL,
   `other_support` varchar(1000) DEFAULT NULL,
-  `related_link` varchar(1000) DEFAULT NULL
+  `related_link` varchar(1000) DEFAULT NULL,
+  `NSRG` int(11) DEFAULT 0,
+  `category` varchar(50) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `scholarship`
 --
 
-INSERT INTO `scholarship` (`sch_id`, `sponid`, `title`, `shdescription`, `no_of_scholarships`, `shamount`, `deadline`, `eligibility`, `postdate`, `other_support`, `related_link`) VALUES
-(5, 1, 'Scholarship for B.Tech', 'Scholarship for B.Tech students', 10, 10000, '2024-01-01', 'B.Tech', '2020-01-01', 'None', 'None'),
-(6, 2, 'Scholarship for M.Tech', 'Scholarship for M.Tech students', 10, 10000, '2024-01-01', 'M.Tech', '2020-01-01', 'None', 'None'),
-(7, 3, 'Scholarship for PhD', 'Scholarship for PhD students', 10, 10000, '2024-01-01', 'PhD', '2020-01-01', 'None', 'None'),
-(8, 2, 'Scholarship for high school', 'Scholarship for High school students', 10, 10000, '2024-01-01', '8th', '2020-01-01', 'None', 'None');
+INSERT INTO `scholarship` (`sch_id`, `sponid`, `title`, `shdescription`, `no_of_scholarships`, `shamount`, `deadline`, `eligibility`, `postdate`, `other_support`, `related_link`, `NSRG`, `category`) VALUES
+(5, 1, 'Scholarship for B.Tech', 'Scholarship for B.Tech students', 10, 10000, '2024-01-01', 'B.Tech', '2020-01-01', 'None', 'None', 0, ''),
+(6, 2, 'Scholarship for M.Tech', 'Scholarship for M.Tech students', 10, 10000, '2024-01-01', 'M.Tech', '2020-01-01', 'None', 'None', 1, ''),
+(7, 3, 'Scholarship for PhD', 'Scholarship for PhD students', 10, 10000, '2024-01-01', 'PhD', '2020-01-01', 'None', 'None', 0, ''),
+(8, 2, 'Scholarship for high school', 'Scholarship for High school students', 10, 10000, '2024-01-01', '8th', '2020-01-01', 'None', 'None', 0, ''),
+(19, 2, 'Scholarship', 'Scholarship for M.Tech students', 10, 10000, '2024-01-01', 'M.Tech', '2020-01-01', 'None', 'None', 0, '');
 
 -- --------------------------------------------------------
 
@@ -93,6 +96,8 @@ INSERT INTO `selection` (`stuid`, `sch_id`, `sponid`) VALUES
 (1, 5, 1),
 (1, 8, 2),
 (2, 6, 2),
+(2, 8, 2),
+(3, 8, 2),
 (3, 7, 3);
 
 -- --------------------------------------------------------
@@ -121,7 +126,10 @@ CREATE TABLE `sponsor` (
 INSERT INTO `sponsor` (`sponid`, `fname`, `lname`, `typeIS`, `profession`, `spaddress`, `pincode`, `phone`, `sppassword`, `emailid`) VALUES
 (1, 'Jack', 'Sparrow', 'Individual', 'Actor', 'Caribbean Islands', '123456', 8219343213, 'Capt!onJackSparrow', 'jacksparrow@gmail.com'),
 (2, 'John', 'Wick', 'Individual', 'Ex-hitman', 'New York', '123456', 8219343211, 'JohnW!ck', 'wick@gmail.com'),
-(3, 'Tony', 'Stark', 'Individual', 'CEO', 'New York', '123456', 8219343212, 'IronMan', 'ironman@gmail.com');
+(3, 'Tony', 'Stark', 'Individual', 'CEO', 'New York', '123456', 8219343212, 'IronMan', 'ironman@gmail.com'),
+(4, 'Tony', 'Stark', 'Individual', 'CEO', 'New York', '123456', 8219343212, 'IronMan', 'ironman1@gmail.com'),
+(5, 'Tony', 'Stark', 'Individual', 'CEO', 'New York', '123456', 8219343212, 'IronMan', 'ironman4@gmail.com'),
+(6, 'Shamanth', 'Gubbi', 'Individual', 'SDE ', 'Vijaynagar', '572216', 8217343931, 'password', 'sham@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -152,9 +160,22 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`stuid`, `fname`, `lname`, `staddress`, `pincode`, `phone`, `stupassword`, `emailid`, `dob`, `cur_qual`, `basic_qual`, `master_qual`, `other_qual`, `stresume`, `photo`) VALUES
-(1, 'Alien', 'X', 'Knowhere', 'kn202', 2224189021, 'AlienX', 'alien@gmail.com', '1999-01-01', 'B.Tech', 'B.Tech', 'M.Tech', 'PhD', 'AlienX.pdf', 'AlienX.jpg'),
+(1, 'Alien', 'X', 'Knowhere', 'kn202', 2224189021, 'AlienX', 'alien@gmail.com', '1998-01-01', 'B.Tech', 'B.Tech', 'M.Tech', 'PhD', 'AlienX.pdf', 'AlienX.jpg'),
 (2, 'Peter', 'Parker', 'New York', 'ny202', 2224189022, 'Spiderman', 'spiderman@gmail.com', '1999-01-01', 'B.Tech', 'B.Tech', 'M.Tech', 'PhD', 'Spiderman.pdf', 'Spiderman.jpg'),
-(3, 'Bruce', 'Banner', 'New York', 'ny202', 2224189023, 'Hulk', 'hulk@gmail.com', '1999-01-01', 'B.Tech', 'B.Tech', 'M.Tech', 'PhD', 'Hulk.pdf', 'Hulk.jpg');
+(3, 'peter', 'undefinedParker\n', 'undefinedKnowhere', 'ny202', 2224189020, 'Hulk', 'hulk@gmail.com', '1998-01-01', 'B.Tech', 'B.Tech\n', 'M.Tech', 'PhD\n', 'hulk.pdf', 'hulk.png'),
+(11, 'Alien', 'X', 'Knowhere', 'kn202', 2224189021, 'AlienX', 'alien@gmail.com', '1998-01-01', 'B.Tech', 'B.Tech', 'M.Tech', 'PhD', 'AlienX.pdf', 'AlienX.jpg'),
+(12, 'Alien', 'X', 'Knowhere', 'kn202', 2224189021, 'AlienX', 'test@gmail.com', '1999-01-01', 'B.Tech', 'B.Tech', 'M.Tech', 'PhD', 'AlienX.pdf', 'AlienX.jpg'),
+(13, 'Alien', 'X', 'Knowhere', 'kn202', 2224189021, 'AlienX', 'alien4@gmail.com', '1998-01-01', 'B.Tech', 'B.Tech', 'M.Tech', 'PhD', 'AlienX.pdf', 'AlienX.jpg'),
+(14, 'undefined', 'undefined', 'undefined', 'undefined', 0, 'undefined', 'undefined', '0000-00-00', 'undefined', 'undefined', 'undefined', 'undefined', 'undefined', 'undefined'),
+(15, 'a', 'd', 'f', 'r', 54642, 'db', 'djfa@gmail.com', '0000-00-00', 'btech', 'btech', 'btech', 'btech', 'btech.pdf', 'btech.png'),
+(16, 'Alien', 'X', 'Knowhere', 'kn202', 2224189021, 'AlienX', 'alien5@gmail.com', '1998-01-01', 'B.Tech', 'B.Tech', 'M.Tech', 'PhD', 'AlienX.pdf', 'AlienX.jpg'),
+(17, 'signup', 'test', 'goergea', '120321', 10293984858, 'pass', 'signup@gmail.com', '0000-00-00', 'kfja', 'btech', 'mtech', 'ctech', 'signup.pdf', 'signup.png'),
+(18, 'q', 's', 'q', 'q', 89813792139, 'roo', 'q@gmail.com', '1999-04-11', 'btech', 'btech', 'btech', 'btech', 'q.pdf', 'q.png'),
+(19, 'g', ' i', 'r', '79281', 283218328472, 'too', 'j@gmail.com', '1999-01-12', 'btech', 'btech', 'btech', 'btech', 'a.pdf', 'g.png'),
+(20, 'r', 'e', 'e', 'e', 90219103, 'toooo', 'w@gmail.com', '1999-02-02', 'btech', 'btech', 'btech', 'btech', 'w.pdf', 'w.png'),
+(21, 'Christian', 'grey', 'Seattle', '89012', 8217343931, 'Grey', 'grey@gmail.com', '2002-07-11', 'cse', 'cse', 'cse', 'cse', 'grey.pdf', 'grey.png'),
+(22, 's', 's', 's', '89', 796855, 'you', 's@gmail.com', '1999-02-02', 'btech', 'btech', 'btech', 'btech', 'a.pdf', 'b.png'),
+(23, 'John', 'Wick', 'Matrix', '2901938', 9999129129, 'BackToTheMatrix', 'wickss@gmail.com', '1989-02-02', 'btech', 'btech', 'btech', 'btech', 'john.pdf', 'john.png');
 
 --
 -- Indexes for dumped tables
@@ -203,19 +224,19 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT for table `scholarship`
 --
 ALTER TABLE `scholarship`
-  MODIFY `sch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `sch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `sponsor`
 --
 ALTER TABLE `sponsor`
-  MODIFY `sponid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `sponid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `stuid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `stuid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables
